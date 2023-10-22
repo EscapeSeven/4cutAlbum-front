@@ -16,6 +16,7 @@ import Second from '../assets/icons/albumCover/Second.png';
 import Third from '../assets/icons/albumCover/Third.png';
 import Fourth from '../assets/icons/albumCover/Fourth.png';
 import Fifth from '../assets/icons/albumCover/Fifth.png';
+import CompleteBtn from '@Assets/icons/CompleteBtn';
 
 const Create = () => {
   const [title, setTitle] = useState('');
@@ -24,6 +25,7 @@ const Create = () => {
   const [isSubTitleEmpty, setIsSubTitleEmpty] = useState(false);
   const [selectedCoverId, setSelectedCoverId] = useState(0);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const resetTitle = () => setTitle('');
   const resetSubTitle = () => setSubTitle('');
@@ -32,7 +34,9 @@ const Create = () => {
   const albumCovers = [First, Second, Third, Fourth, Fifth];
 
   const handleSubmit = async () => {
+    if (isSubmitting) return;
     let hasError = false;
+    setIsSubmitting(true);
 
     if (title.trim() === '' || title === '필수 입력입니다.') {
       setTitle('필수 입력입니다.');
@@ -64,6 +68,8 @@ const Create = () => {
       toHome();
     } catch (error) {
       console.error('An error occurred while sending the request:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -74,19 +80,41 @@ const Create = () => {
           <div onClick={toHome}>
             <BackIcon color="#666666" width="20" height="20" />
           </div>
-          <S.HeaderTitle onClick={handleSubmit}>완료</S.HeaderTitle>
+          <div onClick={handleSubmit}>
+            <CompleteBtn />
+          </div>
         </S.Header>
         <S.Content>
           <div>
             <S.H2>앨범 커버</S.H2>
-            <Swiper modules={[Navigation, Pagination]} spaceBetween={10} slidesPerView={3}>
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={10}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                },
+                366: {
+                  slidesPerView: 2,
+                },
+                489: {
+                  slidesPerView: 3,
+                },
+                645: {
+                  slidesPerView: 4,
+                },
+                768: {
+                  slidesPerView: 5,
+                },
+              }}
+            >
               {albumCovers.map((cover, index) => (
                 <SwiperSlide
                   key={index}
                   onClick={() => setSelectedCoverId(index)}
                   style={{ opacity: selectedCoverId === index ? 1 : 0.3 }}
                 >
-                  <img src={cover} />
+                  <img src={cover} style={{ width: '130px', height: '150px' }} />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -137,36 +165,19 @@ const S = {
     background-color: antiquewhite;
   `,
   CreateLayout: styled.div`
-    /* width: 100%; */
+    width: 100%;
     height: 100%;
     background-color: white;
-    width: 375px;
-    /* width: 375px; */
-    @media screen and (max-width: 768px) {
-      width: 100%;
-    }
+    max-width: 768px;
   `,
   Header: styled.div`
     width: 100%;
-    height: 106px;
+    height: 52px;
     padding: 10px 17px 10px 21px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    @media screen and (max-width: 768px) {
-      height: 52px;
-    }
-  `,
-  HeaderTitle: styled.span`
-    font-size: 16px;
-    font-weight: 500;
-    color: #666;
-
-    /* @media screen and (max-width: 768px) {
-      font-size: 16px;
-    } */
   `,
 
   Content: styled.div`
@@ -176,16 +187,13 @@ const S = {
     padding: 30px 20px 0 20px;
 
     .swiper-slide {
-      width: 276px;
-      cursor: pointer;
+      width: 0px;
 
-      @media screen and (max-width: 768px) {
-        width: 138px;
-      }
+      cursor: pointer;
     }
   `,
   H2: styled.h2`
-    font-size: 2.5625rem;
+    font-size: 20px;
     font-weight: 600;
     margin-bottom: 1.02rem;
   `,
