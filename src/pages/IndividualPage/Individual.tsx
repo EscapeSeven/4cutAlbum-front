@@ -7,6 +7,7 @@ import color from '@Styles/color';
 import Down from '@Assets/icons/Down';
 import PreArrow from '@Assets/icons/PreArrow';
 import sampleImg from './image.png';
+import backgroundImg from './backgroundImg.png';
 
 const Individual = () => {
   const { file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto } = useImageUpload()
@@ -61,25 +62,29 @@ const Individual = () => {
       <PlusLikeBtn></PlusLikeBtn>
       
       <BtnWrap>
-        {isImgUpload ? (
-          <>
-            <Button onClick={onSubmit}>업로드</Button>
-            <Button>
-              <Link to="/" onClick={() => console.log('꾸미기!')}>
-                꾸미기
-              </Link>
-            </Button>
-          </>
-        ) : (
+        {!isImgUpload && (
           <Button onClick={handleImgClick}>사진 선택</Button>
         )}
+
+        {isImgUpload &&  (
+          <Button onClick={onSubmit}>사진 업로드</Button>
+        )}
+
+        {isUploaded && !isUploaded && (
+          <Button>
+            <Link to="/" onClick={() => console.log('꾸미기!')}>
+              꾸미기
+            </Link>
+          </Button>
+        )}
       </BtnWrap>
-    
+
     </Layout>
   );
 };
 
 const Layout = styled.div`
+  max-width: 758px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -164,6 +169,10 @@ const SampleImg = styled.img`
   align-items: center;
   height: 100%;
   margin: 0px auto;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PlusLikeBtn = styled.div`
