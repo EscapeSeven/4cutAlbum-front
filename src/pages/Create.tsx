@@ -22,7 +22,7 @@ const Create = () => {
   const [subTitle, setSubTitle] = useState('');
   const [isTitleEmpty, setIsTitleEmpty] = useState(false);
   const [isSubTitleEmpty, setIsSubTitleEmpty] = useState(false);
-  const [selectedCoverId, setSelectedCoverId] = useState<number | null>(null);
+  const [selectedCoverId, setSelectedCoverId] = useState(0);
   const navigate = useNavigate();
 
   const resetTitle = () => setTitle('');
@@ -56,7 +56,7 @@ const Create = () => {
           params: {
             title: title,
             subTitle: subTitle,
-            coverIndex: selectedCoverId || 0,
+            coverIndex: selectedCoverId + 1 || 1,
           },
         },
       );
