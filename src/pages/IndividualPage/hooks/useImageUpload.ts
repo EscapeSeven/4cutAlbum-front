@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 const BASE_URL = 'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app';
 
-type AlbumPhotos = {
+export type AlbumPhotos = {
   createdDate: string;
   modifiedDate: string;
   id: number;
@@ -65,13 +65,13 @@ const useImageUpload = () => {
     const formData = new FormData();
     formData.append('imageFile', resizedFile);
 
-    // axios
-    //   .post(`${BASE_URL}/user/album/${albumId}/write`, formData)
-    //   .then((res) => fetch())
-    //   .then(() => setIsImgUpload(false))
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    axios
+      .post(`${BASE_URL}/user/album/${albumId}/write`, formData)
+      .then((res) => fetch())
+      .then(() => setIsImgUpload(false))
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const resizeImageWithBackground = (file: File) => {
