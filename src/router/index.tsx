@@ -31,11 +31,11 @@ const router = createBrowserRouter([
         element: <Create />,
       },
       {
-        path: ROUTES_PATH.individual,
+        path: `${ROUTES_PATH.individual}/:albumId`,
         element: <Individual />,
       },
       {
-        path: ROUTES_PATH.decoration,
+        path: `${ROUTES_PATH.decoration}/:photoId`,
         element: <Decoration />,
       },
     ],
