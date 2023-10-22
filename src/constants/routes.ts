@@ -3,4 +3,5 @@ export const ROUTES_PATH = {
   main: '/main',
   create: '/create',
   individual: '/individual',
+  decoration: '/decoration',
 } as const;

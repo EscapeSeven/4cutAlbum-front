@@ -5,15 +5,20 @@
   "homepage": "https://escapeseven.github.io",
   "dependencies": {
     "@craco/craco": "^7.1.0",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.6",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
+    "react-spring-bottom-sheet": "^3.4.1",
     "styled-components": "^6.1.0",
     "swiper": "^10.3.1",
     "typescript": "^4.9.5",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -44,11 +49,13 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
+    "@types/file-saver": "^2.0.6",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.59",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
-    "eslint": "^8.52.0",
+    "@types/uuid": "^9.0.6",
+    "eslint": "^8.51.0",
     "prettier": "^3.0.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0"
   }
