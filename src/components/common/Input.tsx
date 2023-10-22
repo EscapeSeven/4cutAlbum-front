@@ -39,6 +39,10 @@ const S = {
     font-size: 2.5625rem;
     font-weight: 600;
     margin-bottom: 1.02rem;
+    font-size: 20px;
+    @media screen and (max-width: 768px) {
+      font-size: 20px;
+    }
   `,
   InputContainer: styled.div`
     position: relative;
@@ -46,15 +50,18 @@ const S = {
   Input: styled.input<{ $hasError?: boolean }>`
     width: 100%;
     border: none;
-    height: 96px;
+    /* height: 96px;
+     */
+    height: 48px;
     background-color: #f7f7f7;
     padding-left: 1.54rem;
+
     color: ${(props) => (props.$hasError ? 'red' : 'black')};
     border-bottom: ${(props) => (props.$hasError ? '2px solid red' : 'none')};
 
-    @media screen and (max-width: 768px) {
+    /* @media screen and (max-width: 768px) {
       height: 48px;
-    }
+    } */
   `,
   DeleteButton: styled.button`
     cursor: pointer;
