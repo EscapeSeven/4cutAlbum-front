@@ -20,7 +20,7 @@ const NotFound = () => {
             입력하신 주소를 다시 한번 확인해주세요.
           </p>
         </div>
-        <Link to={ROUTES_PATH.home}>홈으로 이동하기</Link>
+        <Link to={ROUTES_PATH.login}>홈으로 이동하기</Link>
       </Layout>
     </ThemeProvider>
   );
