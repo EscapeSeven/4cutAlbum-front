@@ -25,6 +25,7 @@ const Create = () => {
   const [isSubTitleEmpty, setIsSubTitleEmpty] = useState(false);
   const [selectedCoverId, setSelectedCoverId] = useState(0);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const resetTitle = () => setTitle('');
   const resetSubTitle = () => setSubTitle('');
@@ -33,7 +34,9 @@ const Create = () => {
   const albumCovers = [First, Second, Third, Fourth, Fifth];
 
   const handleSubmit = async () => {
+    if (isSubmitting) return;
     let hasError = false;
+    setIsSubmitting(true);
 
     if (title.trim() === '' || title === '필수 입력입니다.') {
       setTitle('필수 입력입니다.');
@@ -65,6 +68,8 @@ const Create = () => {
       toHome();
     } catch (error) {
       console.error('An error occurred while sending the request:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
