@@ -6,7 +6,6 @@ const useImageUpload = () => {
   const [file, setFile] = useState<FileList | null>(null);
   const [imgURL, setImgURL] = useState<string>(sampleImg);
   const [isImgUpload, setIsImgUpload] = useState<boolean>(false);
-  const [isHasSubmit, setIsHasSubmit] = useState(false);
 
   // 파일 선택시 호출되는 함수
   const selectImg = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,16 +27,19 @@ const useImageUpload = () => {
     if (!file) {
       return alert('사진을 선택하세요!');
     }
-    setIsHasSubmit(true);
-    const formData = new FormData();
-    formData.append('imageFile', file[0]);
 
-    axios
-      .post('https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app/user/album/1/write', formData)
-      .then((res) => console.log(res))
-      .catch((error) => {
-        console.log(error);
-      });
+
+    // const formData = new FormData();
+    // formData.append('imageFile', file[0]);
+    //
+    // axios
+    //   .post('https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app/user/album/1/write', formData)
+    //   .then((res) => console.log(res))
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    setIsImgUpload(false);
   };
 
   const stickerPhoto = () => {

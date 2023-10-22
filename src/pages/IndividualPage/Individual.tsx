@@ -18,7 +18,6 @@ import 'swiper/css/scrollbar';
 import { ROUTES_PATH } from '@Constants/routes';
 
 
-
 const BASE_URL = 'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app/user/albums';
 
 type AlbumPhotos = {
@@ -39,8 +38,14 @@ const Individual = () => {
   const [isUploaded, setIsUploaded] = useState(true);
   const [isImgonSubmit, setIsImgonSubmit] = useState(false);
 
-
-  const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[] | null>(null);
+  const initialPhoto = {
+    createdDate: 'string',
+    modifiedDate: 'string',
+    id: 0,
+    imageUrl: sampleImg,
+    likes: 0
+  };
+  const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[]>([initialPhoto]);
   const handleImgClick = () => {
     imgUploadInput.current?.click();
   };
@@ -59,18 +64,27 @@ const Individual = () => {
     .then((res) => {
       const {data} = res;
       console.log(data.data);
-      setAlbumPhotos(data.data)
+      console.log(albumPhotos);
+
+      setAlbumPhotos(prevState => [...prevState, ...data.data]);
     })
     .catch((error) => {
       console.log(error);
     });
   };
 
-  const handlePhotoClick = (photoId:number) => {
-    navigate(`${ROUTES_PATH.decoration}/${photoId}`)
-  }
+  const handlePhotoClick = (photoId: number, index: number) => {
+    if (index === 0) {
+      console.log(photoId);
+      handleImgClick();
+    } else {
+      navigate(`${ROUTES_PATH.decoration}/${photoId}`);
+    }
+
+  };
 
   return (
+    <DefaultLayout>
     <Layout>
       <Header>
         <Link to="hello" onClick={() => console.log('뒤로가기!')}>
@@ -93,44 +107,7 @@ const Individual = () => {
           )}
         </RightBtn>
       </Header>
-      {/*{albumPhotos?.map(photo => {*/}
-      {/*  return <img key={photo.id} src={photo.imageUrl}/>*/}
-      {/*})}*/}
-
-
-      <Swiper
-        modules={[Navigation, Pagination]}
-        spaceBetween={40}
-        slidesPerView={1.4}
-        centeredSlides={true}
-        pagination={{
-          type: 'fraction',
-        }}
-        navigation={true}
-        // onSwiper={(swiper) => console.log(swiper)}
-      >
-
-        <SwiperSlide>Slide 1</SwiperSlide>
-
-      </Swiper>
-
       <Content>
-
-        <Swiper
-          modules={[Navigation, Pagination]}
-          spaceBetween={10}
-          slidesPerView={1}
-          centeredSlides={true}
-        >
-          {albumPhotos?.map((photos) => (
-            <SwiperSlide
-              key={photos.id}
-              onClick={() => handlePhotoClick(photos.id)}
-            >
-              <img src={photos.imageUrl} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
         {/*<input*/}
         {/*  type="file"*/}
         {/*  accept="image/*"*/}
@@ -140,8 +117,30 @@ const Individual = () => {
         {/*  style={{display: 'none'}}*/}
         {/*/>*/}
 
-        {/*{isImgUpload ? <SampleImg src={imgURL}/> : <SampleImg src={imgURL}/>}*/}
+        {/*{isImgUpload ? <>*/}
+        {/*  <SampleImg src={imgURL}/>*/}
+        {/*  <Button onClick={handleImgClick}>사진 선택</Button>*/}
+        {/*  <Button onClick={onSubmit}>사진 업로드 </Button>*/}
+        {/*</> : <Swiper*/}
+        {/*  modules={[Navigation, Pagination]}*/}
+        {/*  spaceBetween={10}*/}
+        {/*  slidesPerView={1}*/}
+        {/*  centeredSlides={true}*/}
+        {/*>*/}
+        {/*  {albumPhotos?.map((photos, index) => (*/}
+        {/*    <SwiperSlide*/}
+        {/*      key={photos.id}*/}
+        {/*      onClick={() => handlePhotoClick(photos.id, index)}*/}
+        {/*    >*/}
+        {/*      <img src={photos.imageUrl}/>*/}
+        {/*    </SwiperSlide>*/}
+        {/*  ))}*/}
+        {/*</Swiper>}*/}
       </Content>
+      <Footer>
+        <Button>꾸미기</Button>
+
+      </Footer>
 
       {/*<PlusLikeBtn></PlusLikeBtn>*/}
 
@@ -158,34 +157,65 @@ const Individual = () => {
       {/*    </Button>*/}
       {/*  )}*/}
       {/*</BtnWrap>*/}
+
     </Layout>
+    </DefaultLayout>
   );
 };
 
-const Layout = styled.div`
+const DefaultLayout = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  background-color: antiquewhite;
+  min-height: 100vh;
+
+`;
+
+const Layout = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  max-width: 768px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: #f6f6f6;
-  height: 100vh;
-  margin: auto;
-  position: relative;
-  background-color: white;
-  padding-top: 44px;
-  max-width: 768px;
+  justify-content: space-between;
 `;
+
+
 
 const Header = styled.div`
-  /* width: 375px; */
-  max-width: 768px;
+  width: 100%;
   height: 52px;
-  background-color: white;
+  padding: 10px 17px 10px 21px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 `;
 
+const Content = styled.div`
+  width: 100%;
+  height: 450px;
+  background-color: #f6f6f6;
+`;
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0 21px;
+  margin-bottom: 70px;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  height: 52px;
+  color: ${color.btn};
+  background-color: ${color.primary};
+  border-radius: 8px;
+  font-size: 20px;
+`;
 const None = styled.div`
   /* width: 375px; */
   height: 44px;
@@ -228,12 +258,7 @@ const RightBtn = styled.div`
   }
 `;
 
-const Content = styled.div`
-  /* width: 375px; */
-  width: 100%;
-  height: 450px;
-  background-color: #f6f6f6;
-`;
+
 
 const Info = styled.div`
   position: absolute;
@@ -284,14 +309,6 @@ const BtnWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Button = styled.button`
-  width: 333px;
-  height: 52px;
-  color: ${color.btn};
-  background-color: ${color.primary};
-  font-size: 20px;
 `;
 
 const ImgUpload = styled.img`
