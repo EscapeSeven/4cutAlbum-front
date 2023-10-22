@@ -94,7 +94,7 @@ const Decoration = () => {
                   setIsClickedId(sticker.id);
                 }}
               >
-                <StyledSelectedSticker className="box" editMode={sticker.id === isClickedId}>
+                <StyledSelectedSticker name="sticker" className="box" editMode={sticker.id === isClickedId}>
                   {sticker.id === isClickedId && (
                     <RemoveButton
                       onClick={() => removeSticker(sticker.id)}
@@ -149,7 +149,7 @@ const DecorationField = styled.div`
   padding: 60px;
 `;
 
-const StyledSelectedSticker = styled.div<{ editMode: boolean }>`
+const StyledSelectedSticker = styled.div<{ name: string; editMode: boolean }>`
   position: absolute;
   bottom: 80%;
   right: 0;
@@ -181,10 +181,10 @@ const StyledStickerWrapper = styled.div`
 `;
 
 const StyledSticker = styled.button<{ imageUrl: string }>`
-  width: 50px;
+  width: 40px;
   /* border: 1px solid black; */
   padding: 0;
-  height: 50px;
+  height: 40px;
   background-image: url(${(props) => props.imageUrl});
   background-size: 100%;
 `;

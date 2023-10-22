@@ -9,6 +9,7 @@ const Login = lazy(() => import('@Pages/Login'));
 const Main = lazy(() => import('@Pages/Main'));
 const Create = lazy(() => import('@Pages/Create'));
 const Individual = lazy(() => import('@Pages/IndividualPage/Individual'));
+const Decoration = lazy(() => import('@Pages/Decoration'));
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Login />,
       },
-
       {
         path: ROUTES_PATH.main,
         element: <Main />,
@@ -32,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES_PATH.individual,
         element: <Individual />,
+      },
+      {
+        path: ROUTES_PATH.decoration,
+        element: <Decoration />,
       },
     ],
   },
