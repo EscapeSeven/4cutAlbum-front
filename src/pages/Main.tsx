@@ -70,7 +70,7 @@ const Main = () => {
                     <AlbumTitle>{userAlbum.title}</AlbumTitle>
                     <AlbumSubtitle>{userAlbum.subTitle}</AlbumSubtitle>
                     <AlbumBackground>
-                      <Link to={ROUTES_PATH.login}>
+                      <Link to={ROUTES_PATH.individual}>
                         <AlbumImage
                           src={
                             userAlbum.coverIndex === 0
@@ -209,9 +209,9 @@ export const AlbumBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 13.312px 24.576px 7.168px #00000012;
   border-radius: 5%;
   transition: transform 0.2s ease-in-out;
+  box-shadow: 0px 13.312px 24.576px 7.168px #00000012;
   cursor: pointer;
 
   &:hover {

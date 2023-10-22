@@ -1,8 +1,6 @@
 export const ROUTES_PATH = {
-  home: '/',
-  hello: '/hello',
-  login: '/login',
+  login: '/',
   main: '/main',
   create: '/create',
-  individual: 'individual',
+  individual: '/individual',
 } as const;
