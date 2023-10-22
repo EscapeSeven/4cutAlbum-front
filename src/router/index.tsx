@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <Individual />,
       },
       {
-        path: ROUTES_PATH.decoration,
+        path: `${ROUTES_PATH.decoration}/:photoId`,
         element: <Decoration />,
       },
     ],

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useImageUpload from '@Pages/IndividualPage/hooks/useImageUpload';
 import People from '@Assets/icons/People';
@@ -9,20 +9,69 @@ import PreArrow from '@Assets/icons/PreArrow';
 import sampleImg from './image.png';
 import backgroundImg from './backgroundImg.png';
 import axios from 'axios';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import { ROUTES_PATH } from '@Constants/routes';
+
+
+
+const BASE_URL = 'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app/user/albums';
+
+type AlbumPhotos = {
+  createdDate: string;
+  modifiedDate: string;
+  id: number;
+  imageUrl: string;
+  likes: number;
+}
+
 
 const Individual = () => {
-  const { file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto } = useImageUpload();
+  const {albumId} = useParams();
+  const navigate = useNavigate();
+
+  const {file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto} = useImageUpload();
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
   const [isUploaded, setIsUploaded] = useState(true);
   const [isImgonSubmit, setIsImgonSubmit] = useState(false);
 
+
+  const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[] | null>(null);
   const handleImgClick = () => {
     imgUploadInput.current?.click();
   };
 
+  const swiper = useSwiper();
+
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
+
+  const fetch = () => {
+    axios
+    .get(`${BASE_URL}/${albumId}`)
+    .then((res) => {
+      const {data} = res;
+      console.log(data.data);
+      setAlbumPhotos(data.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const handlePhotoClick = (photoId:number) => {
+    navigate(`${ROUTES_PATH.decoration}/${photoId}`)
+  }
+
   return (
     <Layout>
-      <None />
       <Header>
         <Link to="hello" onClick={() => console.log('뒤로가기!')}>
           <LeftBtn>
@@ -33,46 +82,82 @@ const Individual = () => {
         <RightBtn>
           {isImgUpload ? (
             <>
-              <DownIcon isUploaded color={color.gray[700]} />
-              <People color={color.gray[700]} />
+              <DownIcon isUploaded color={color.gray[700]}/>
+              <People color={color.gray[700]}/>
             </>
           ) : (
             <>
-              <DownIcon color={color.gray[400]} />
-              <People color={color.gray[700]} />
+              <DownIcon color={color.gray[400]}/>
+              <People color={color.gray[700]}/>
             </>
           )}
         </RightBtn>
       </Header>
+      {/*{albumPhotos?.map(photo => {*/}
+      {/*  return <img key={photo.id} src={photo.imageUrl}/>*/}
+      {/*})}*/}
+
+
+      <Swiper
+        modules={[Navigation, Pagination]}
+        spaceBetween={40}
+        slidesPerView={1.4}
+        centeredSlides={true}
+        pagination={{
+          type: 'fraction',
+        }}
+        navigation={true}
+        // onSwiper={(swiper) => console.log(swiper)}
+      >
+
+        <SwiperSlide>Slide 1</SwiperSlide>
+
+      </Swiper>
 
       <Content>
-        <input
-          type="file"
-          accept="image/*"
-          required
-          ref={imgUploadInput}
-          onChange={selectImg}
-          style={{ display: 'none' }}
-        />
 
-        {isImgUpload ? <SampleImg src={imgURL} /> : <SampleImg src={imgURL} />}
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={10}
+          slidesPerView={1}
+          centeredSlides={true}
+        >
+          {albumPhotos?.map((photos) => (
+            <SwiperSlide
+              key={photos.id}
+              onClick={() => handlePhotoClick(photos.id)}
+            >
+              <img src={photos.imageUrl} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        {/*<input*/}
+        {/*  type="file"*/}
+        {/*  accept="image/*"*/}
+        {/*  required*/}
+        {/*  ref={imgUploadInput}*/}
+        {/*  onChange={selectImg}*/}
+        {/*  style={{display: 'none'}}*/}
+        {/*/>*/}
+
+        {/*{isImgUpload ? <SampleImg src={imgURL}/> : <SampleImg src={imgURL}/>}*/}
       </Content>
 
-      <PlusLikeBtn></PlusLikeBtn>
+      {/*<PlusLikeBtn></PlusLikeBtn>*/}
 
-      <BtnWrap>
-        {!isImgUpload && <Button onClick={handleImgClick}>사진 선택</Button>}
+      {/*<BtnWrap>*/}
+      {/*  {!isImgUpload && <Button onClick={handleImgClick}>사진 선택</Button>}*/}
 
-        {isImgUpload && <Button onClick={onSubmit}>사진 업로드</Button>}
+      {/*  {isImgUpload && <Button onClick={onSubmit}>사진 업로드</Button>}*/}
 
-        {isUploaded && !isUploaded && (
-          <Button>
-            <Link to="/" onClick={() => console.log('꾸미기!')}>
-              꾸미기
-            </Link>
-          </Button>
-        )}
-      </BtnWrap>
+      {/*  {isUploaded && !isUploaded && (*/}
+      {/*    <Button>*/}
+      {/*      <Link to="/" onClick={() => console.log('꾸미기!')}>*/}
+      {/*        꾸미기*/}
+      {/*      </Link>*/}
+      {/*    </Button>*/}
+      {/*  )}*/}
+      {/*</BtnWrap>*/}
     </Layout>
   );
 };
