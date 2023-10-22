@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useImageUpload from '@Pages/IndividualPage/hooks/useImageUpload';
 import People from '@Assets/icons/People';
@@ -7,10 +7,8 @@ import color from '@Styles/color';
 import DownIcon from '@Assets/icons/DownIcon';
 import PreArrow from '@Assets/icons/PreArrow';
 import sampleImg from './image.png';
-import backgroundImg from './backgroundImg.png';
-import axios from 'axios';
 import { Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -63,7 +61,7 @@ const Individual = () => {
         </Header>
         <Content>
           {albumPhotos?.length === 0 ? (
-            <img src={imgURL ? imgURL : sampleImg} onClick={handleImgClick} />
+            <SlideImg src={imgURL ? imgURL : sampleImg} onClick={handleImgClick} />
           ) : (
             <>
               <Swiper
@@ -94,15 +92,15 @@ const Individual = () => {
             <Button onClick={() => handlePhotoClick(albumPhotos?.[currentSlide].id)}>꾸미기</Button>
           )}
         </Footer>
+        {/*<input*/}
+        {/*  type="file"*/}
+        {/*  accept="image/*"*/}
+        {/*  required*/}
+        {/*  ref={imgUploadInput}*/}
+        {/*  onChange={selectImg}*/}
+        {/*  style={{ display: 'none' }}*/}
+        {/*/>*/}
       </Layout>
-      <input
-        type="file"
-        accept="image/*"
-        required
-        ref={imgUploadInput}
-        onChange={selectImg}
-        style={{ display: 'none' }}
-      />
     </DefaultLayout>
   );
 };
@@ -143,7 +141,6 @@ const RightSide = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  height: calc(100vh - 52px - 52px - 112px);
 `;
 
 const SlideImgWrapper = styled.div`
@@ -156,8 +153,6 @@ const SlideImgWrapper = styled.div`
 
 const SlideImg = styled.img`
   width: fit-content;
-  //max-width: 25px;
-  //width: 100px;
 `;
 
 const Footer = styled.div`

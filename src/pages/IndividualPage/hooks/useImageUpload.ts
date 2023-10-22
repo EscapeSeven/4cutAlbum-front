@@ -13,10 +13,6 @@ type AlbumPhotos = {
   likes: number;
 };
 
-type Props = {
-  albumId: string;
-};
-
 const useImageUpload = () => {
   const { albumId } = useParams();
   const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[] | null>(null);
@@ -59,16 +55,16 @@ const useImageUpload = () => {
   };
 
   // 사용자가 선택한 이미지 파일을 특정 서버 URL로 업로드하는 함수
-  const onSubmit = async () => {
+  const onSubmit = () => {
     if (!file) {
       return alert('사진을 선택하세요!');
     }
 
-    const resizedFile = await resizeImageWithBackground(file[0], 786, 900, '/assets/photo_background.png');
+    const resizedFile = resizeImageWithBackground(file[0]);
 
     const formData = new FormData();
     formData.append('imageFile', resizedFile);
-    console.log(resizedFile);
+
     // axios
     //   .post(`${BASE_URL}/user/album/${albumId}/write`, formData)
     //   .then((res) => fetch())
@@ -78,47 +74,8 @@ const useImageUpload = () => {
     //   });
   };
 
-  const resizeImageWithBackground = (
-    file: File,
-    maxWidth: number,
-    maxHeight: number,
-    backgroundURL: string,
-  ): Promise<File> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-
-      const backgroundImg = new Image();
-      backgroundImg.src = backgroundURL;
-
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
-
-        const backgroundWidth = width + 20; // Adjust as needed
-        const backgroundHeight = height + 20; // Adjust as needed
-
-        canvas.width = backgroundWidth;
-        canvas.height = backgroundHeight;
-
-        const ctx = canvas.getContext('2d')!;
-
-        // Draw the background image
-        ctx.drawImage(backgroundImg, 0, 0, backgroundWidth, backgroundHeight);
-
-        // Draw the resized image on top of the background
-        ctx.drawImage(img, 10, 10, width, height); // Adjust the position (10, 10) as needed
-
-        canvas.toBlob((blob) => {
-          if (blob) {
-            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-          }
-        }, 'image/jpeg');
-      };
-
-      img.onerror = reject;
-    });
+  const resizeImageWithBackground = (file: File) => {
+    return file;
   };
 
   const stickerPhoto = () => {
