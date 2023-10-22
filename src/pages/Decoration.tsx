@@ -7,7 +7,9 @@ import { BottomSheet, BottomSheetRef } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
 import { STICKER_IMAGES } from '@Constants/stickerImage';
 import html2canvas from 'html2canvas';
-import saveAs from 'file-saver';
+import removeIcon from '@Assets/icons/removeIcon.png';
+import axios from 'axios';
+import { instance } from '@Apis/customAxios';
 
 type Stickers = {
   id: string;
@@ -60,11 +62,30 @@ const Decoration = () => {
       const canvas = await html2canvas(div, { scale: 1 });
       canvas.toBlob((blob) => {
         if (blob !== null) {
-          saveAs(blob, 'result.png');
+          uploadImage(blob);
         }
       });
     } catch (error) {
       console.error('Error converting div to image:', error);
+    }
+  };
+
+  const uploadImage = async (blob: Blob) => {
+    try {
+      // 폼데이터 객체 생성
+      const formData = new FormData();
+      formData.append('file', blob);
+      const { data } = await axios.post(
+        'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app/user/album/1/edit',
+        formData,
+        {
+          headers: { 'content-type': 'multipart/form-data' },
+        },
+      );
+
+      return data?.journeyId;
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -80,7 +101,7 @@ const Decoration = () => {
     <>
       <MainContainer onClick={cancelEditMode}>
         <DecorationField ref={divRef}>
-          <img src="assets/먼지.jpg" />
+          <img src="assets/stickers/스티커2-01.png" />
           {stickers.map((sticker) => {
             return (
               <Draggable
@@ -100,16 +121,16 @@ const Decoration = () => {
                       onClick={() => removeSticker(sticker.id)}
                       // onPointerEnter={() => removeSticker(sticker.id)}
                     >
-                      <img src="assets/removeIcon.png" />
+                      <img src={removeIcon} />
                     </RemoveButton>
                   )}
-                  <StyledSticker name="sticker" imageUrl={sticker.imageUrl} />
+                  <StyledSticker name="sticker" imageUrl={`assets/stickers/${sticker.imageUrl}`} />
                 </StyledSelectedSticker>
               </Draggable>
             );
           })}
         </DecorationField>
-        <button onClick={handleDownload}>다운로드</button>
+        <button onClick={handleDownload}>완료</button>
         <BottomSheet
           open
           ref={sheetRef}
@@ -127,7 +148,7 @@ const Decoration = () => {
                   onClick={() => {
                     putSticker(image);
                   }}
-                  imageUrl={image}
+                  imageUrl={`assets/stickers/${image}`}
                 />
               );
             })}
@@ -157,7 +178,7 @@ const StyledSelectedSticker = styled.div<{ name: string; editMode: boolean }>`
   width: 60px;
   height: 60px;
   border-style: dashed;
-  border-color: black;
+  border-color: #636363;
   border-width: ${(props) => (props.editMode ? '1px' : '0')};
   display: flex;
   justify-content: center;
@@ -182,10 +203,9 @@ const StyledStickerWrapper = styled.div`
 
 const StyledSticker = styled.button<{ imageUrl: string }>`
   width: 40px;
-  /* border: 1px solid black; */
   padding: 0;
   height: 40px;
-  background-image: url(${(props) => props.imageUrl});
+  background-image: ${(props) => `url(${props.imageUrl})`};
   background-size: 100%;
 `;
 
