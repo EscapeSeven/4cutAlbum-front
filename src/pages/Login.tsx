@@ -1,13 +1,12 @@
 import { ROUTES_PATH } from '@Constants/routes';
 import { Link } from 'react-router-dom';
-import styled, { keyframes, css } from 'styled-components';
-import loginBackground from '../image/login.png';
+import styled, { keyframes } from 'styled-components';
+import loginBackground from '../assets/icons/albumCover/login.png';
 
 const Login = () => {
   return (
     <>
       <LoginLayout>
-        <InfoText>설명글</InfoText>
         <BackgroundImage></BackgroundImage>
 
         <Link to={ROUTES_PATH.main}>
@@ -40,15 +39,6 @@ export const LoginLayout = styled.div`
   }
 `;
 
-export const InfoText = styled.p`
-  width: 200px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 400;
-  margin: auto;
-  padding-top: 200px;
-`;
-
 export const BackgroundImage = styled.div``;
 
 // hover animation
@@ -65,19 +55,19 @@ const pulseAnimation = keyframes`
 `;
 
 export const StartBtn = styled.div`
-  border-radius: 8px;
-  background: var(--Primary, #d9d9d9);
   width: 333px;
   padding: 14px 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--grayscales-gray-1-c, #1c1c1c);
+  border-radius: 8px;
+  background: var(--Primary, #2f2f2f);
   font-size: 20px;
   font-weight: 600;
   transition: transform 1s ease-in-out;
   margin: auto;
-  margin-top: 400px;
+  margin-top: 700px;
+  color: white;
   cursor: pointer;
 
   &:hover {

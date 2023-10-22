@@ -10,8 +10,9 @@ import Second from '../assets/icons/albumCover/Second.png';
 import Third from '../assets/icons/albumCover/Third.png';
 import Fourth from '../assets/icons/albumCover/Fourth.png';
 import Fifth from '../assets/icons/albumCover/Fifth.png';
-import setting from '../image/setting.png';
-import correction from '../image/correction.png';
+import setting from '../assets/icons/albumCover/setting.png';
+import correction from '../assets/icons/albumCover/correction.png';
+import plus from '../assets/icons/albumCover/plus.png';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -70,7 +71,7 @@ const Main = () => {
                     <AlbumTitle>{userAlbum.title}</AlbumTitle>
                     <AlbumSubtitle>{userAlbum.subTitle}</AlbumSubtitle>
                     <AlbumBackground>
-                      <Link to={ROUTES_PATH.individual}>
+                      <Link to={`${ROUTES_PATH.individual}/${userAlbum.id}`}>
                         <AlbumImage
                           src={
                             userAlbum.coverIndex === 0
@@ -104,7 +105,7 @@ const Main = () => {
           </Swiper>
           <Link to={ROUTES_PATH.create}>
             <AlbumAddButton>
-              <p>+</p>
+              <PlusIcon />
             </AlbumAddButton>
           </Link>
         </MainLayout>
@@ -219,7 +220,7 @@ export const AlbumBackground = styled.div`
   }
 `;
 
-const AlbumImage = styled.img`
+export const AlbumImage = styled.img`
   width: 270px;
 `;
 
@@ -227,7 +228,7 @@ export const AlbumAddButton = styled.button`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #d9d9d9;
+  background-color: #2f2f2f;
   border: none;
   display: flex;
   align-items: center;
@@ -239,10 +240,14 @@ export const AlbumAddButton = styled.button`
   transform: translateX(-50%);
   box-shadow: 0px 4px 11px 4px #9e9e9e40;
   transition: background-color 0.2s ease;
+  z-index: 1px;
 
-  & p {
-    color: #666666;
+  & span {
+    justify-content: center;
+    align-items: center;
+    color: white;
     font-size: 50px;
+    position: absolute;
   }
 
   &:hover {
@@ -263,8 +268,18 @@ export const EmptyAlbumScreen = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 26.624000549316406px 49.152000427246094px 14.336000442504883px #00000012;
+  box-shadow: 0px 13.312px 24.576px 7.168px rgba(0, 0, 0, 0.07);
   font-size: 80px;
   cursor: pointer;
   color: #d2d2d2;
+`;
+
+export const PlusIcon = styled.img`
+  background-image: url(${plus});
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 `;
