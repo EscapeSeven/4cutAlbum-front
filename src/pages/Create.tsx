@@ -137,12 +137,13 @@ const S = {
     background-color: antiquewhite;
   `,
   CreateLayout: styled.div`
-    width: 100%;
+    /* width: 100%; */
     height: 100%;
     background-color: white;
-    max-width: 768px;
+    width: 375px;
+    /* width: 375px; */
     @media screen and (max-width: 768px) {
-      //768px 이하일 때
+      width: 100%;
     }
   `,
   Header: styled.div`
@@ -159,7 +160,13 @@ const S = {
     }
   `,
   HeaderTitle: styled.span`
-    font-size: 2rem;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+
+    /* @media screen and (max-width: 768px) {
+      font-size: 16px;
+    } */
   `,
 
   Content: styled.div`
