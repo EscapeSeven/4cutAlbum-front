@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useImageUpload from '@Pages/IndividualPage/hooks/useImageUpload';
@@ -7,6 +7,8 @@ import color from '@Styles/color';
 import Down from '@Assets/icons/Down';
 import PreArrow from '@Assets/icons/PreArrow';
 import sampleImg from './image.png';
+import backgroundImg from './backgroundImg.png';
+import axios from 'axios';
 
 const Individual = () => {
   const { file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto } = useImageUpload();
@@ -21,7 +23,6 @@ const Individual = () => {
   return (
     <Layout>
       <None />
-
       <Header>
         <Link to="hello" onClick={() => console.log('뒤로가기!')}>
           <LeftBtn>
@@ -60,17 +61,16 @@ const Individual = () => {
       <PlusLikeBtn></PlusLikeBtn>
 
       <BtnWrap>
-        {isImgUpload ? (
-          <>
-            <Button onClick={onSubmit}>업로드</Button>
-            <Button>
-              <Link to="/" onClick={() => console.log('꾸미기!')}>
-                꾸미기
-              </Link>
-            </Button>
-          </>
-        ) : (
-          <Button onClick={handleImgClick}>사진 선택</Button>
+        {!isImgUpload && <Button onClick={handleImgClick}>사진 선택</Button>}
+
+        {isImgUpload && <Button onClick={onSubmit}>사진 업로드</Button>}
+
+        {isUploaded && !isUploaded && (
+          <Button>
+            <Link to="/" onClick={() => console.log('꾸미기!')}>
+              꾸미기
+            </Link>
+          </Button>
         )}
       </BtnWrap>
     </Layout>
@@ -78,11 +78,11 @@ const Individual = () => {
 };
 
 const Layout = styled.div`
-  /* height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #F6F6F6; */
+  background-color: #f6f6f6;
   height: 100vh;
   margin: auto;
   position: relative;
@@ -172,6 +172,10 @@ const SampleImg = styled.img`
   align-items: center;
   height: 100%;
   margin: 0px auto;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PlusLikeBtn = styled.div`

@@ -71,7 +71,7 @@ const Main = () => {
                     <AlbumTitle>{userAlbum.title}</AlbumTitle>
                     <AlbumSubtitle>{userAlbum.subTitle}</AlbumSubtitle>
                     <AlbumBackground>
-                      <Link to={ROUTES_PATH.individual}>
+                      <Link to={`${ROUTES_PATH.individual}/${userAlbum.id}`}>
                         <AlbumImage
                           src={
                             userAlbum.coverIndex === 0
