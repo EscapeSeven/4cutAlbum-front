@@ -88,15 +88,15 @@ const Main = () => {
                       <Link to={`${ROUTES_PATH.individual}/${userAlbum.id}`}>
                         <AlbumImage
                           src={
-                            userAlbum.coverIndex === 0
+                            userAlbum.coverIndex === 1
                               ? First
-                              : userAlbum.coverIndex === 1
-                              ? Second
                               : userAlbum.coverIndex === 2
-                              ? Third
+                              ? Second
                               : userAlbum.coverIndex === 3
-                              ? Fourth
+                              ? Third
                               : userAlbum.coverIndex === 4
+                              ? Fourth 
+                              : userAlbum.coverIndex === 5
                               ? Fifth
                               : AlbumNull
                           }

@@ -6,7 +6,7 @@ import People from '@Assets/icons/People';
 import color from '@Styles/color';
 import DownIcon from '@Assets/icons/DownIcon';
 import PreArrow from '@Assets/icons/PreArrow';
-import sampleImg from './image.png';
+import sampleImg from '@Assets/origin_test_photo/emptyScreen.png';
 import { ROUTES_PATH } from '@Constants/routes';
 import PlusIcon from '@Assets/icons/PlusIcon';
 import PhotoSwiper from '@Pages/IndividualPage/components/PhotoSwiper';
