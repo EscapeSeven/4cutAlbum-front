@@ -9,7 +9,7 @@ const Login = () => {
       <LoginLayout>
         <BackgroundImage></BackgroundImage>
 
-        <Link to={ROUTES_PATH.main}>
+        <Link to={ROUTES_PATH.qrcode}>
           <QrStartBtn>QR코드 찍기</QrStartBtn>
         </Link>
         <Link to={ROUTES_PATH.main}>
