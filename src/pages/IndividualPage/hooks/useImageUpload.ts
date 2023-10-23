@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import sampleImg from '../image.png';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import axios, { AxiosResponse } from 'axios';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { ROUTES_PATH } from '@Constants/routes';
 
 const BASE_URL = 'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app';
 
@@ -15,7 +16,12 @@ export type AlbumPhotos = {
 
 const useImageUpload = () => {
   const { albumId } = useParams();
+  const navigate = useNavigate();
+  const initial_slide = 0;
   const { photoId } = useParams();
+
+  const [currentSlide, setCurrentSlide] = useState<number>(initial_slide);
+
   const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[] | null>(null);
   const [photo, setPhoto] = useState<AlbumPhotos | null>(null);
   const [file, setFile] = useState<FileList | null>(null);
@@ -40,6 +46,10 @@ const useImageUpload = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleCurrentSlide = (slideNumber: number) => {
+    setCurrentSlide(slideNumber);
   };
 
   const fetchPhoto = async () => {
@@ -116,7 +126,25 @@ const useImageUpload = () => {
     }
   };
 
-  return { albumPhotos, onSubmitDecoPhoto, file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto, photo };
+  const handlePhotoClick = (photoId: number | undefined) => {
+    if (!photoId) return;
+    navigate(`${ROUTES_PATH.decoration}/${photoId}?albumId=${albumId}`);
+  };
+
+  return {
+    currentSlide,
+    handleCurrentSlide,
+    albumPhotos,
+    onSubmitDecoPhoto,
+    file,
+    imgURL,
+    selectImg,
+    onSubmit,
+    isImgUpload,
+    stickerPhoto,
+    photo,
+    handlePhotoClick,
+  };
 };
 
 export default useImageUpload;

@@ -13,20 +13,12 @@ import PhotoSwiper from '@Pages/IndividualPage/components/PhotoSwiper';
 import Header from '@Components/common/Header';
 
 const Individual = () => {
-  const navigate = useNavigate();
-  const initial_slide = 0;
-
-  const { albumPhotos, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto } = useImageUpload();
+  const { currentSlide, handleCurrentSlide, albumPhotos, imgURL, selectImg, onSubmit, isImgUpload, handlePhotoClick } =
+    useImageUpload();
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
-  const [currentSlide, setCurrentSlide] = useState<number>(initial_slide);
 
   const handleImgClick = () => {
     imgUploadInput.current?.click();
-  };
-
-  const handlePhotoClick = (photoId: number | undefined) => {
-    if (!photoId) return;
-    navigate(`${ROUTES_PATH.decoration}/${photoId}`);
   };
 
   const handleButtonClick = () => {
