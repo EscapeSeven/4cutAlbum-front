@@ -74,15 +74,15 @@ const Main = () => {
                       <Link to={`${ROUTES_PATH.individual}/${userAlbum.id}`}>
                         <AlbumImage
                           src={
-                            userAlbum.coverIndex === 0
+                            userAlbum.coverIndex === 1
                               ? First
-                              : userAlbum.coverIndex === 1
-                              ? Second
                               : userAlbum.coverIndex === 2
-                              ? Third
+                              ? Second
                               : userAlbum.coverIndex === 3
-                              ? Fourth
+                              ? Third
                               : userAlbum.coverIndex === 4
+                              ? Fourth
+                              : userAlbum.coverIndex === 5
                               ? Fifth
                               : userAlbum.imageUrl
                           }
@@ -241,15 +241,7 @@ export const AlbumAddButton = styled.button`
   box-shadow: 0px 4px 11px 4px #9e9e9e40;
   transition: background-color 0.2s ease;
   z-index: 1px;
-
-  & span {
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 50px;
-    position: absolute;
-  }
-
+  
   &:hover {
     background-color: #bbb;
 

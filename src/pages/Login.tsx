@@ -10,6 +10,9 @@ const Login = () => {
         <BackgroundImage></BackgroundImage>
 
         <Link to={ROUTES_PATH.main}>
+          <QrStartBtn>QR CODE</QrStartBtn>
+        </Link>
+        <Link to={ROUTES_PATH.main}>
           <StartBtn>시작하기</StartBtn>
         </Link>
       </LoginLayout>
@@ -54,6 +57,27 @@ const pulseAnimation = keyframes`
   }
 `;
 
+export const QrStartBtn = styled.div`
+  width: 333px;
+  padding: 14px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--Primary, #2f2f2f);
+  font-size: 20px;
+  font-weight: 600;
+  transition: transform 1s ease-in-out;
+  margin: auto;
+  margin-top: 650px;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    animation: ${pulseAnimation} 1s ease infinite;
+  }
+`;
+
 export const StartBtn = styled.div`
   width: 333px;
   padding: 14px 12px;
@@ -66,7 +90,7 @@ export const StartBtn = styled.div`
   font-weight: 600;
   transition: transform 1s ease-in-out;
   margin: auto;
-  margin-top: 700px;
+  margin-top: 30px;
   color: white;
   cursor: pointer;
 
