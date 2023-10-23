@@ -3,8 +3,7 @@ import sampleImg from '@Assets/origin_test_photo/emptyScreen.png';
 import axios, { AxiosResponse } from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ROUTES_PATH } from '@Constants/routes';
-
-const BASE_URL = 'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app';
+import { BASE_URL } from '@Constants/base';
 
 export type AlbumPhotos = {
   createdDate: string;
@@ -18,12 +17,10 @@ const useImageUpload = () => {
   const { albumId } = useParams();
   const navigate = useNavigate();
   const initial_slide = 0;
-  const { photoId } = useParams();
 
   const [currentSlide, setCurrentSlide] = useState<number>(initial_slide);
 
   const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[] | null>(null);
-  const [photo, setPhoto] = useState<AlbumPhotos | null>(null);
   const [file, setFile] = useState<FileList | null>(null);
   const [imgURL, setImgURL] = useState<string>(sampleImg);
   const [isImgUpload, setIsImgUpload] = useState<boolean>(false);
@@ -31,8 +28,6 @@ const useImageUpload = () => {
   useEffect(() => {
     if (albumId) {
       fetch();
-    } else if (photoId) {
-      fetchPhoto();
     }
   }, []);
 
@@ -50,18 +45,6 @@ const useImageUpload = () => {
 
   const handleCurrentSlide = (slideNumber: number) => {
     setCurrentSlide(slideNumber);
-  };
-
-  const fetchPhoto = async () => {
-    await axios
-      .get(`${BASE_URL}/user/album/${photoId}`)
-      .then((res) => {
-        setPhoto(res.data.data);
-        console.log('가져오기 성공');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   // 파일 선택시 호출되는 함수
@@ -99,23 +82,6 @@ const useImageUpload = () => {
       });
   };
 
-  const onSubmitDecoPhoto = (blob: Blob) => {
-    if (!blob) {
-      return alert('사진을 선택하세요!');
-    }
-
-    const formData = new FormData();
-    formData.append('imageFile', blob);
-
-    axios
-      .post(`${BASE_URL}/user/album/${photoId}/edit`, formData)
-      // .then((res) => fetchPhoto())
-      .then(() => setIsImgUpload(false))
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const resizeImageWithBackground = (file: File) => {
     return file;
   };
@@ -135,14 +101,12 @@ const useImageUpload = () => {
     currentSlide,
     handleCurrentSlide,
     albumPhotos,
-    onSubmitDecoPhoto,
     file,
     imgURL,
     selectImg,
     onSubmit,
     isImgUpload,
     stickerPhoto,
-    photo,
     handlePhotoClick,
   };
 };

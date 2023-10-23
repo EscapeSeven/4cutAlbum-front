@@ -1,6 +1,6 @@
 import SwiperCore from 'swiper';
-import React, { Dispatch, useState } from 'react';
-import useImageUpload, { AlbumPhotos } from '@Pages/IndividualPage/hooks/useImageUpload';
+import React from 'react';
+import { AlbumPhotos } from '@Pages/IndividualPage/hooks/useImageUpload';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -9,15 +9,15 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 import styled from 'styled-components';
-import LikeButton from '@Pages/IndividualPage/components/LikeButton';
 import color from '@Styles/color';
 
 type Props = {
   albumPhotos: AlbumPhotos[] | null;
   currentSlide: number;
+  handleCurrentSlide: (arg: number) => void;
 };
 
-const PhotoSwiper = ({ albumPhotos, currentSlide }: Props) => {
+const PhotoSwiper = ({ albumPhotos, currentSlide, handleCurrentSlide }: Props) => {
   return (
     <Layout>
       <Swiper
@@ -27,6 +27,7 @@ const PhotoSwiper = ({ albumPhotos, currentSlide }: Props) => {
         slidesPerView={1}
         centeredSlides={true}
         initialSlide={currentSlide}
+        onSlideChange={(e: SwiperCore) => handleCurrentSlide(e.activeIndex)}
         navigation={true}
       >
         {albumPhotos?.map((photo) => (
@@ -47,6 +48,7 @@ export default PhotoSwiper;
 
 const Layout = styled.div`
   height: 450px;
+
   .swiper-button-next,
   .swiper-button-prev {
     color: #1c1c1c80;
