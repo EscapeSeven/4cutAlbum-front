@@ -1,10 +1,13 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AlbumPhotos } from '@Pages/IndividualPage/hooks/useImageUpload';
 import axios from 'axios';
 import { BASE_URL } from '@Constants/base';
+import { ROUTES_PATH } from '@Constants/routes';
 
 const useDecorationInfo = () => {
+  const navigate = useNavigate();
+
   const { photoId } = useParams();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -42,13 +45,13 @@ const useDecorationInfo = () => {
     axios
       .post(`${BASE_URL}/user/album/${photoId}/edit`, formData)
       // .then((res) => fetchPhoto())
-      .then(() => setIsImgUpload(false))
+      .then(() => navigate(`${ROUTES_PATH.individual}/${albumId}?photoId=${photoId}`))
       .catch((error) => {
         console.log(error);
       });
   };
 
-  return { albumId, photo, onSubmitDecoPhoto };
+  return { photo, onSubmitDecoPhoto };
 };
 
 export default useDecorationInfo;

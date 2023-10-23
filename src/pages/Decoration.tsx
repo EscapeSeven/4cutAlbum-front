@@ -10,7 +10,6 @@ import removeIcon from '@Assets/icons/removeIcon.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import color from '@Styles/color';
 import BackIcon from '@Assets/icons/BackIcon';
-import { ROUTES_PATH } from '@Constants/routes';
 import useDecorationInfo from '@Pages/hooks/useDecorationInfo';
 
 type Stickers = {
@@ -20,9 +19,7 @@ type Stickers = {
 };
 
 const Decoration = () => {
-  const { photoId } = useParams();
-
-  const { albumId, photo, onSubmitDecoPhoto } = useDecorationInfo();
+  const { photo, onSubmitDecoPhoto } = useDecorationInfo();
 
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
@@ -72,10 +69,11 @@ const Decoration = () => {
         allowTaint: true,
         useCORS: true,
       });
+
+      console.log(canvas);
       canvas.toBlob((blob) => {
         if (blob !== null) {
           onSubmitDecoPhoto(blob);
-          navigate(`${ROUTES_PATH.individual}/${albumId}?photoId=${photoId}`);
         }
       });
     } catch (error) {
