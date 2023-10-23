@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useImageUpload from '@Pages/IndividualPage/hooks/useImageUpload';
-import People from '@Assets/icons/People';
+import { ROUTES_PATH } from '@Constants/routes';
+import Header from '@Components/common/Header';
 import color from '@Styles/color';
+import useImageUpload from '@Pages/IndividualPage/hooks/useImageUpload';
+import PhotoSwiper from '@Pages/IndividualPage/components/PhotoSwiper';
+import People from '@Assets/icons/People';
 import DownIcon from '@Assets/icons/DownIcon';
 import PreArrow from '@Assets/icons/PreArrow';
-import sampleImg from '@Assets/origin_test_photo/emptyScreen.png';
-import { ROUTES_PATH } from '@Constants/routes';
 import PlusIcon from '@Assets/icons/PlusIcon';
-import PhotoSwiper from '@Pages/IndividualPage/components/PhotoSwiper';
-import Header from '@Components/common/Header';
+import sampleImg from '@Assets/origin_test_photo/emptyScreen.png';
 
 const Individual = () => {
   const { currentSlide, handleCurrentSlide, albumPhotos, imgURL, selectImg, onSubmit, isImgUpload, handlePhotoClick } =
@@ -90,7 +90,10 @@ const RightSide = styled.div`
   display: flex;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  width: 80%;
+  margin: auto;
+`;
 
 const Button = styled.button`
   width: 90%;
