@@ -10,7 +10,7 @@ const Login = () => {
         <BackgroundImage></BackgroundImage>
 
         <Link to={ROUTES_PATH.main}>
-          <QrStartBtn>QR CODE</QrStartBtn>
+          <QrStartBtn>QR코드 찍기</QrStartBtn>
         </Link>
         <Link to={ROUTES_PATH.main}>
           <StartBtn>시작하기</StartBtn>
@@ -55,27 +55,6 @@ const pulseAnimation = keyframes`
   }
 `;
 
-export const QrStartBtn = styled.div`
-  width: 333px;
-  padding: 14px 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  background: var(--Primary, #2f2f2f);
-  font-size: 20px;
-  font-weight: 600;
-  transition: transform 1s ease-in-out;
-  margin: auto;
-  margin-top: 570px;
-  color: white;
-  cursor: pointer;
-
-  &:hover {
-    animation: ${pulseAnimation} 1s ease infinite;
-  }
-`;
-
 export const StartBtn = styled.div`
   width: 333px;
   height: 52px;
@@ -84,16 +63,48 @@ export const StartBtn = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  border: 1px solid #000000;
   background: var(--Primary, #2f2f2f);
   font-size: 20px;
   font-weight: 600;
-  transition: transform 1s ease-in-out;
   margin: auto;
-  margin-top: 30px;
   color: white;
+  cursor: pointer;
+  position: absolute;
+  bottom: 130px;
+  left: 50%;
+  transition: background-color 0.2s ease;
+  transform: translate(-50%, -50%);
+
+  &:hover {
+    background: #5e5e5e;
+    color: #ffffff;
+  }
+`;
+
+export const QrStartBtn = styled.div`
+  width: 333px;
+  height: 52px;
+  padding: 14px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  background: #ffffff;
+  font-size: 20px;
+  margin: auto;
+  color: #2f2f2f;
   cursor: pointer;
   position: absolute;
   bottom: 70px;
   left: 50%;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
   transform: translate(-50%, -50%);
+
+  &:hover {
+    background: #eeeeee;
+    color: #414141;
+  }
 `;

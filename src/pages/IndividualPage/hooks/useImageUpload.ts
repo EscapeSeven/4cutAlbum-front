@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import sampleImg from '../image.png';
+import sampleImg from '@Assets/origin_test_photo/emptyScreen.png';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
