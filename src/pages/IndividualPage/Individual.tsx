@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ROUTES_PATH } from '@Constants/routes';
 import Header from '@Components/common/Header';
@@ -51,7 +51,11 @@ const Individual = () => {
             <img src={imgURL ? imgURL : sampleImg} onClick={handleImgClick} />
           ) : (
             <>
-              <PhotoSwiper albumPhotos={albumPhotos} currentSlide={currentSlide} />
+              <PhotoSwiper
+                albumPhotos={albumPhotos}
+                currentSlide={currentSlide}
+                handleCurrentSlide={handleCurrentSlide}
+              />
             </>
           )}
         </Content>
