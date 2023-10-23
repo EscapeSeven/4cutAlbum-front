@@ -17,6 +17,7 @@ import Third from '../assets/icons/albumCover/Third.png';
 import Fourth from '../assets/icons/albumCover/Fourth.png';
 import Fifth from '../assets/icons/albumCover/Fifth.png';
 import CompleteBtn from '@Assets/icons/CompleteBtn';
+import Header from '@Components/common/Header';
 
 const Create = () => {
   const [title, setTitle] = useState('');
@@ -38,14 +39,14 @@ const Create = () => {
     let hasError = false;
     setIsSubmitting(true);
 
-    if (title.trim() === '' || title === '필수 입력입니다.') {
-      setTitle('필수 입력입니다.');
+    if (title.trim() === '' || title === '앨범명을 입력해주세요.') {
+      setTitle('앨범명을 입력해주세요.');
       setIsTitleEmpty(true);
       hasError = true;
     }
 
-    if (subTitle.trim() === '' || subTitle === '필수 입력입니다.') {
-      setSubTitle('필수 입력입니다.');
+    if (subTitle.trim() === '' || subTitle === '부제목을 입력해주세요.') {
+      setSubTitle('부제목을 입력해주세요.');
       setIsSubTitleEmpty(true);
       hasError = true;
     }
@@ -76,14 +77,14 @@ const Create = () => {
   return (
     <S.DefaultLayout>
       <S.CreateLayout>
-        <S.Header>
-          <div onClick={toHome}>
+        <Header>
+          <button onClick={toHome}>
             <BackIcon color="#666666" width="20" height="20" />
-          </div>
-          <div onClick={handleSubmit}>
+          </button>
+          <button onClick={handleSubmit}>
             <CompleteBtn />
-          </div>
-        </S.Header>
+          </button>
+        </Header>
         <S.Content>
           <div>
             <S.H2>앨범 커버</S.H2>
@@ -92,16 +93,16 @@ const Create = () => {
               spaceBetween={10}
               breakpoints={{
                 0: {
-                  slidesPerView: 1,
+                  slidesPerView: 1.4,
                 },
-                366: {
-                  slidesPerView: 2,
+                320: {
+                  slidesPerView: 2.4,
                 },
-                489: {
-                  slidesPerView: 3,
+                480: {
+                  slidesPerView: 3.4,
                 },
                 645: {
-                  slidesPerView: 4,
+                  slidesPerView: 4.4,
                 },
                 768: {
                   slidesPerView: 5,
@@ -127,7 +128,7 @@ const Create = () => {
             label="앨범명"
             $hasError={isTitleEmpty}
             onFocus={() => {
-              if (title === '필수 입력입니다.') {
+              if (title === '앨범명을 입력해주세요.') {
                 setTitle('');
               }
               setIsTitleEmpty(false);
@@ -142,7 +143,7 @@ const Create = () => {
             label="부제목"
             $hasError={isSubTitleEmpty}
             onFocus={() => {
-              if (subTitle === '필수 입력입니다.') {
+              if (subTitle === '부제목을 입력해주세요.') {
                 setSubTitle('');
               }
               setIsSubTitleEmpty(false);
@@ -169,15 +170,6 @@ const S = {
     height: 100%;
     background-color: white;
     max-width: 768px;
-  `,
-  Header: styled.div`
-    width: 100%;
-    height: 52px;
-    padding: 10px 17px 10px 21px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   `,
 
   Content: styled.div`
