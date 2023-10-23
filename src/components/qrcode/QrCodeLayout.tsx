@@ -7,7 +7,9 @@ const QrCodeLayout = ({ children }: PropsWithChildren) => {
   return (
     <DefaultLayout>
       <Layout>
-        <Header></Header>
+        <Header>
+          <></>
+        </Header>
         <ContentsContainer>{children}</ContentsContainer>
       </Layout>
     </DefaultLayout>
