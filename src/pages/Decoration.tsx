@@ -7,7 +7,7 @@ import 'react-spring-bottom-sheet/dist/style.css';
 import { STICKER_IMAGES } from '@Constants/stickerImage';
 import html2canvas from 'html2canvas';
 import removeIcon from '@Assets/icons/removeIcon.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import color from '@Styles/color';
 import BackIcon from '@Assets/icons/BackIcon';
 import { ROUTES_PATH } from '@Constants/routes';
@@ -20,7 +20,9 @@ type Stickers = {
 };
 
 const Decoration = () => {
-  const { photo, onSubmitDecoPhoto } = useDecorationInfo();
+  const { photoId } = useParams();
+
+  const { albumId, photo, onSubmitDecoPhoto } = useDecorationInfo();
 
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
@@ -73,7 +75,7 @@ const Decoration = () => {
       canvas.toBlob((blob) => {
         if (blob !== null) {
           onSubmitDecoPhoto(blob);
-          navigate(`${ROUTES_PATH.individual}/1`);
+          navigate(`${ROUTES_PATH.individual}/${albumId}?photoId=${photoId}`);
         }
       });
     } catch (error) {

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AlbumPhotos } from '@Pages/IndividualPage/hooks/useImageUpload';
 import axios from 'axios';
@@ -6,6 +6,10 @@ import { BASE_URL } from '@Constants/base';
 
 const useDecorationInfo = () => {
   const { photoId } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const albumId = searchParams.get('albumId');
+
   const [photo, setPhoto] = useState<AlbumPhotos | null>(null);
   const [isImgUpload, setIsImgUpload] = useState<boolean>(false);
 
@@ -44,7 +48,7 @@ const useDecorationInfo = () => {
       });
   };
 
-  return { photo, onSubmitDecoPhoto };
+  return { albumId, photo, onSubmitDecoPhoto };
 };
 
 export default useDecorationInfo;
