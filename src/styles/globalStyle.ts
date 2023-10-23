@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
     --rsbs-mr: auto;
   }
 
+
   body {
     font-size: 1.6rem;
     font-family: "Pretendard";
