@@ -34,7 +34,7 @@ const PhotoSwiper = ({ albumPhotos, currentSlide, setCurrentSlide }: Props) => {
             <SlideImgWrapper>
               <SlideImg src={photos.imageUrl} />
             </SlideImgWrapper>
-            <LikeButton likes={photos.likes} />
+            <LikeButton photoId={photos.id} likes={photos.likes} />
           </SwiperSlide>
         ))}
       </Swiper>
