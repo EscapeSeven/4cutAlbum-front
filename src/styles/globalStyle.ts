@@ -9,6 +9,12 @@ const GlobalStyles = createGlobalStyle`
     font-size: 62.5%;
   }
 
+  :root {
+    --rsbs-max-w: 768px;
+    --rsbs-ml:  auto;
+    --rsbs-mr: auto;
+  }
+
   body {
     font-size: 1.6rem;
     font-family: "Pretendard";
