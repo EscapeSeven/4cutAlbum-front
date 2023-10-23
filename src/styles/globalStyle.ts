@@ -15,6 +15,24 @@ const GlobalStyles = createGlobalStyle`
     --rsbs-mr: auto;
   }
 
+  .swiper-button-prev {
+  background: url('/assets/arrow.png') no-repeat;
+  background-size: 50% auto;
+  background-position: center;
+}
+
+
+.swiper-button-next {
+  background: url('/assets/next-arrow.png') no-repeat;
+  background-size: 50% auto;
+  background-position: center;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+}
+
   body {
     font-size: 1.6rem;
     font-family: "Pretendard";

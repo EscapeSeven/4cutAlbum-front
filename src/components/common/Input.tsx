@@ -52,6 +52,7 @@ const S = {
     border: none;
     /* height: 96px;
      */
+    border-radius: 4px;
     height: 48px;
     background-color: #f7f7f7;
     padding-left: 1.54rem;
@@ -67,12 +68,8 @@ const S = {
     cursor: pointer;
     position: absolute;
 
-    right: 1.25rem;
-    top: calc(50% - 20px);
-
-    @media screen and (max-width: 768px) {
-      right: 1.25rem;
-      transform: translateY(5%);
-    }
+    right: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
   `,
 };
