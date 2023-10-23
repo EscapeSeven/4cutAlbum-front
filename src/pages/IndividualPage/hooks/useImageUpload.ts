@@ -15,8 +15,9 @@ export type AlbumPhotos = {
 
 const useImageUpload = () => {
   const { albumId } = useParams();
+  const { photoId } = useParams();
   const [albumPhotos, setAlbumPhotos] = useState<AlbumPhotos[] | null>(null);
-
+  const [photo, setPhoto] = useState<AlbumPhotos | null>(null);
   const [file, setFile] = useState<FileList | null>(null);
   const [imgURL, setImgURL] = useState<string>(sampleImg);
   const [isImgUpload, setIsImgUpload] = useState<boolean>(false);
@@ -24,6 +25,8 @@ const useImageUpload = () => {
   useEffect(() => {
     if (albumId) {
       fetch();
+    } else if (photoId) {
+      fetchPhoto();
     }
   }, []);
 
@@ -32,6 +35,18 @@ const useImageUpload = () => {
       .get(`${BASE_URL}/user/albums/${albumId}`)
       .then((res) => {
         setAlbumPhotos(res.data.data);
+        console.log('가져오기 성공');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchPhoto = async () => {
+    await axios
+      .get(`${BASE_URL}/user/album/${photoId}`)
+      .then((res) => {
+        setPhoto(res.data.data);
         console.log('가져오기 성공');
       })
       .catch((error) => {
@@ -74,6 +89,23 @@ const useImageUpload = () => {
       });
   };
 
+  const onSubmitDecoPhoto = (blob: Blob) => {
+    if (!blob) {
+      return alert('사진을 선택하세요!');
+    }
+
+    const formData = new FormData();
+    formData.append('imageFile', blob);
+
+    axios
+      .post(`${BASE_URL}/user/album/${photoId}/edit`, formData)
+      // .then((res) => fetchPhoto())
+      .then(() => setIsImgUpload(false))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const resizeImageWithBackground = (file: File) => {
     return file;
   };
@@ -84,7 +116,7 @@ const useImageUpload = () => {
     }
   };
 
-  return { albumPhotos, file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto };
+  return { albumPhotos, onSubmitDecoPhoto, file, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto, photo };
 };
 
 export default useImageUpload;

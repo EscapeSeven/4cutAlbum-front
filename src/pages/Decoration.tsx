@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Draggable, { DraggableData } from 'react-draggable';
 import { v4 as uuidv4 } from 'uuid';
 import { styled } from 'styled-components';
@@ -10,6 +10,11 @@ import html2canvas from 'html2canvas';
 import removeIcon from '@Assets/icons/removeIcon.png';
 import axios from 'axios';
 import { instance } from '@Apis/customAxios';
+import { useNavigate, useParams } from 'react-router-dom';
+import useImageUpload, { AlbumPhotos } from './IndividualPage/hooks/useImageUpload';
+import color from '@Styles/color';
+import BackIcon from '@Assets/icons/BackIcon';
+import { ROUTES_PATH } from '@Constants/routes';
 
 type Stickers = {
   id: string;
@@ -18,6 +23,10 @@ type Stickers = {
 };
 
 const Decoration = () => {
+  const { photo, onSubmitDecoPhoto, selectImg } = useImageUpload();
+
+  const imgUploadInput = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
   const [stickers, setStickers] = useState<Stickers[]>([]);
   const [isClickedId, setIsClickedId] = useState('');
   const divRef = useRef<HTMLDivElement>(null);
@@ -42,7 +51,7 @@ const Decoration = () => {
 
   const putSticker = (imageUrl: string) => {
     const uuid = uuidv4();
-    const x_random = Math.random() * -280;
+    const x_random = Math.random() * (-180 - 100) + 150;
     const y_random = Math.random() * 100;
     const sticker = {
       id: uuid,
@@ -59,33 +68,19 @@ const Decoration = () => {
     if (!divRef.current) return;
     try {
       const div = divRef.current;
-      const canvas = await html2canvas(div, { scale: 1 });
+      const canvas = await html2canvas(div, {
+        scale: 1,
+        allowTaint: true,
+        useCORS: true,
+      });
       canvas.toBlob((blob) => {
         if (blob !== null) {
-          uploadImage(blob);
+          onSubmitDecoPhoto(blob);
+          navigate(`${ROUTES_PATH.individual}/1`);
         }
       });
     } catch (error) {
       console.error('Error converting div to image:', error);
-    }
-  };
-
-  const uploadImage = async (blob: Blob) => {
-    try {
-      // 폼데이터 객체 생성
-      const formData = new FormData();
-      formData.append('file', blob);
-      const { data } = await axios.post(
-        'https://port-0-cutalbum-back-jvpb2alnz8cuvj.sel5.cloudtype.app/user/album/1/edit',
-        formData,
-        {
-          headers: { 'content-type': 'multipart/form-data' },
-        },
-      );
-
-      return data?.journeyId;
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -100,8 +95,19 @@ const Decoration = () => {
   return (
     <>
       <MainContainer onClick={cancelEditMode}>
+        <Header>
+          <button
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <BackIcon color="#666666" width="20" height="20" />
+          </button>
+          <CompleteButton onClick={handleDownload}>완료</CompleteButton>
+        </Header>
         <DecorationField ref={divRef}>
-          <img src="assets/stickers/스티커2-01.png" />
+          <PhotoImage src={photo?.imageUrl} />
+          <PhotoDate>{photo?.createdDate}</PhotoDate>
           {stickers.map((sticker) => {
             return (
               <Draggable
@@ -124,19 +130,19 @@ const Decoration = () => {
                       <img src={removeIcon} />
                     </RemoveButton>
                   )}
-                  <StyledSticker name="sticker" imageUrl={`assets/stickers/${sticker.imageUrl}`} />
+                  <StyledSticker name="sticker" imageUrl={`/assets/stickers/${sticker.imageUrl}`} />
                 </StyledSelectedSticker>
               </Draggable>
             );
           })}
         </DecorationField>
-        <button onClick={handleDownload}>완료</button>
+        {/* <button onClick={handleDownload}>완료</button> */}
         <BottomSheet
           open
           ref={sheetRef}
           blocking={false}
           snapPoints={({ maxHeight }) => [
-            maxHeight / 3, //최소
+            maxHeight / 2.3, //최소
             maxHeight / 1.1, //최대
           ]}
         >
@@ -148,7 +154,7 @@ const Decoration = () => {
                   onClick={() => {
                     putSticker(image);
                   }}
-                  imageUrl={`assets/stickers/${image}`}
+                  imageUrl={`/assets/stickers/${image}`}
                 />
               );
             })}
@@ -162,18 +168,51 @@ const Decoration = () => {
 export default Decoration;
 
 const MainContainer = styled.div`
-  max-width: 768px;
+  max-width: 375px;
+  margin: auto;
+  max-height: 450px;
+`;
+
+const Header = styled.div`
+  padding: 10px 21px;
+  background-color: white;
+  width: 100%;
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const CompleteButton = styled.button`
+  color: #666666;
+  font-size: 16px;
+`;
+
+const PhotoImage = styled.img`
   margin: auto;
 `;
 
+const PhotoDate = styled.div`
+  font-size: 16px;
+  color: ${color.gray[600]};
+  text-align: right;
+`;
+
 const DecorationField = styled.div`
-  padding: 60px;
+  padding: 33px 60px;
+  position: relative;
+  max-height: 450px;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  flex-direction: column;
+  background-image: url('/assets/background.png');
 `;
 
 const StyledSelectedSticker = styled.div<{ name: string; editMode: boolean }>`
   position: absolute;
-  bottom: 80%;
-  right: 0;
+  bottom: 50%;
+  right: 50%;
   cursor: pointer;
   width: 60px;
   height: 60px;
