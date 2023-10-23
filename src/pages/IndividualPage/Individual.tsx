@@ -10,10 +10,11 @@ import sampleImg from './image.png';
 import { ROUTES_PATH } from '@Constants/routes';
 import PlusIcon from '@Assets/icons/PlusIcon';
 import PhotoSwiper from '@Pages/IndividualPage/components/PhotoSwiper';
+import Header from '@Components/common/Header';
 
 const Individual = () => {
   const navigate = useNavigate();
-  const initial_slide = 12;
+  const initial_slide = 0;
 
   const { albumPhotos, imgURL, selectImg, onSubmit, isImgUpload, stickerPhoto } = useImageUpload();
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
@@ -46,9 +47,9 @@ const Individual = () => {
             </Link>
           </LeftSide>
           <RightSide>
-            <div onClick={handleImgClick}>
+            <button onClick={handleImgClick}>
               <PlusIcon />
-            </div>
+            </button>
             <DownIcon />
             <People />
           </RightSide>
@@ -58,17 +59,15 @@ const Individual = () => {
             <img src={imgURL ? imgURL : sampleImg} onClick={handleImgClick} />
           ) : (
             <>
-              <PhotoSwiper albumPhotos={albumPhotos} currentSlide={currentSlide} setCurrentSlide={setCurrentSlide} />
+              <PhotoSwiper albumPhotos={albumPhotos} currentSlide={currentSlide} />
             </>
           )}
         </Content>
-        <ButtonWrapper>
-          {albumPhotos?.length === 0 || isImgUpload ? (
-            <Button onClick={() => handleButtonClick()}>{isImgUpload ? '앨범에 추가' : '사진 선택'}</Button>
-          ) : (
-            <Button onClick={() => handlePhotoClick(albumPhotos?.[currentSlide].id)}>꾸미기</Button>
-          )}
-        </ButtonWrapper>
+        {albumPhotos?.length === 0 || isImgUpload ? (
+          <Button onClick={() => handleButtonClick()}>{isImgUpload ? '앨범에 추가' : '사진 선택'}</Button>
+        ) : (
+          <Button onClick={() => handlePhotoClick(albumPhotos?.[currentSlide].id)}>꾸미기</Button>
+        )}
         <input
           type="file"
           accept="image/*"
@@ -90,46 +89,28 @@ const Layout = styled.div`
   height: 100vh;
   max-width: 768px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   background-color: white;
-`;
-
-const Header = styled.div`
-  width: 100%;
-  height: 52px;
-  padding: 0 17px 0 21px;
-
-  display: flex;
-  justify-content: space-between;
+  position: relative;
 `;
 
 const LeftSide = styled.div``;
 const RightSide = styled.div`
   display: flex;
-  gap: 12px;
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 0 21px;
-  margin-bottom: 70px;
-`;
+const Content = styled.div``;
 
 const Button = styled.button`
-  width: 100%;
+  width: 90%;
   height: 52px;
   color: ${color.btn};
   background-color: ${color.primary};
   border-radius: 8px;
   font-size: 20px;
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const PlusLikeBtn = styled.div`

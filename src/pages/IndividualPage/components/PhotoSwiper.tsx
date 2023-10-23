@@ -10,14 +10,14 @@ import 'swiper/css/scrollbar';
 
 import styled from 'styled-components';
 import LikeButton from '@Pages/IndividualPage/components/LikeButton';
+import color from '@Styles/color';
 
 type Props = {
   albumPhotos: AlbumPhotos[] | null;
   currentSlide: number;
-  setCurrentSlide: Dispatch<React.SetStateAction<number>>;
 };
 
-const PhotoSwiper = ({ albumPhotos, currentSlide, setCurrentSlide }: Props) => {
+const PhotoSwiper = ({ albumPhotos, currentSlide }: Props) => {
   return (
     <Layout>
       <Swiper
@@ -26,15 +26,16 @@ const PhotoSwiper = ({ albumPhotos, currentSlide, setCurrentSlide }: Props) => {
         spaceBetween={10}
         slidesPerView={1}
         centeredSlides={true}
-        onSlideChange={(swiper: SwiperCore) => setCurrentSlide(swiper.activeIndex)}
         initialSlide={currentSlide}
+        navigation={true}
       >
-        {albumPhotos?.map((photos) => (
-          <SwiperSlide key={photos.id} onClick={() => console.log(currentSlide)}>
+        {albumPhotos?.map((photo) => (
+          <SwiperSlide key={photo.id}>
             <SlideImgWrapper>
-              <SlideImg src={photos.imageUrl} />
+              <SlideImg src={photo.imageUrl} />
+              <PhotoDate>{photo.createdDate}</PhotoDate>
             </SlideImgWrapper>
-            <LikeButton photoId={photos.id} likes={photos.likes} />
+            <LikeButton likes={photo.likes} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -44,14 +45,35 @@ const PhotoSwiper = ({ albumPhotos, currentSlide, setCurrentSlide }: Props) => {
 
 export default PhotoSwiper;
 
-const Layout = styled.div``;
+const Layout = styled.div`
+  height: 450px;
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #1c1c1c80;
+  }
+`;
+
+const PhotoDate = styled.div`
+  font-size: 16px;
+  color: ${color.gray[600]};
+  text-align: right;
+  width: 256px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 const SlideImgWrapper = styled.div`
-  width: 100%;
+  height: 450px;
   display: flex;
+  flex-direction: column;
+  background-image: url('/assets/background.png');
   justify-content: center;
+  /* align-items: center; */
 `;
 
 const SlideImg = styled.img`
-  width: 100%;
+  width: 256px;
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
 `;

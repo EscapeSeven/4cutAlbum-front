@@ -1,6 +1,6 @@
 import { ROUTES_PATH } from '@Constants/routes';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -8,15 +8,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import First from '../assets/icons/albumCover/First.png';
 import Second from '../assets/icons/albumCover/Second.png';
 import Third from '../assets/icons/albumCover/Third.png';
+import AlbumNull from '@Assets/icons/albumCover/album_null.png';
 import Fourth from '../assets/icons/albumCover/Fourth.png';
 import Fifth from '../assets/icons/albumCover/Fifth.png';
 import setting from '../assets/icons/albumCover/setting.png';
 import correction from '../assets/icons/albumCover/correction.png';
-import plus from '../assets/icons/albumCover/plus.png';
+import Header from '@Components/common/Header';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import color from '@Styles/color';
 
 interface Album {
   id: number;
@@ -40,10 +42,12 @@ const Main = () => {
       });
   }, []);
 
-  // console.log(userAlbums);
-
   const handleImageClick = () => {
     alert('개발 중 입니다!');
+  };
+
+  const handleImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = AlbumNull;
   };
 
   return (
@@ -51,13 +55,23 @@ const Main = () => {
       <Wrapper>
         <MainLayout>
           <Header>
-            <Setting src={setting} alt="nav 이미지" onClick={handleImageClick}></Setting>
-            <Correction src={correction} alt="nav 이미지" onClick={handleImageClick}></Correction>
+            <Setting src={setting} alt="설정 버튼" onClick={handleImageClick}></Setting>
+            <Correction src={correction} alt="수정 버튼" onClick={handleImageClick}></Correction>
           </Header>
           <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={40}
-            slidesPerView={1.4}
+            breakpoints={{
+              375: {
+                slidesPerView: 1.4,
+              },
+              443: {
+                slidesPerView: 1.8,
+              },
+              768: {
+                slidesPerView: 2.3,
+              },
+            }}
             centeredSlides={true}
             pagination={{
               type: 'fraction',
@@ -84,9 +98,10 @@ const Main = () => {
                               ? Fourth
                               : userAlbum.coverIndex === 4
                               ? Fifth
-                              : userAlbum.imageUrl
+                              : AlbumNull
                           }
                           alt="앨범 이미지"
+                          onError={handleImgError}
                         />
                       </Link>
                     </AlbumBackground>
@@ -95,18 +110,14 @@ const Main = () => {
               ))
             ) : (
               <>
-                <AlbumTitle>앨범을 만들어주세요!</AlbumTitle>
-                <AlbumSubtitle>4CUT</AlbumSubtitle>
-                <Link to={ROUTES_PATH.create}>
-                  <EmptyAlbumScreen>+</EmptyAlbumScreen>
-                </Link>
+                <AlbumTitle margin={97}>새로운 앨범</AlbumTitle>
+                <AlbumSubtitle>당신의 추억을 저장하세요</AlbumSubtitle>
+                <EmptyAlbumScreen />
               </>
             )}
           </Swiper>
           <Link to={ROUTES_PATH.create}>
-            <AlbumAddButton>
-              <PlusIcon />
-            </AlbumAddButton>
+            <AlbumAddButton />
           </Link>
         </MainLayout>
       </Wrapper>
@@ -126,7 +137,6 @@ export const MainLayout = styled.div`
   position: relative;
   background-color: white;
   max-width: 768px;
-  padding-top: 44px;
 
   .swiper-button-next,
   .swiper-button-prev {
@@ -140,20 +150,13 @@ export const MainLayout = styled.div`
     font-size: 16px;
     font-weight: 500;
     position: relative;
-
-    .swiper-pagination-bullets.swiper-pagination-horizontal {
-      margin: auto;
-      width: 59px;
-    }
+    border: 1px solid ${color.gray[500]};
+    border-radius: 50px;
+    padding: 2px 4px;
+    width: 70px;
+    margin: auto;
+    letter-spacing: 0px;
   }
-`;
-
-export const Header = styled.div`
-  width: 90%;
-  height: 52px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
 `;
 
 export const Setting = styled.img`
@@ -171,21 +174,24 @@ export const Album = styled.div`
   position: relative;
 `;
 
-export const AlbumTitle = styled.div`
+export const AlbumImage = styled.img`
+  width: 260px;
+`;
+
+export const AlbumTitle = styled.div<{ margin?: number }>`
   color: var(--grayscales-gray-1-c, #1c1c1c);
   text-align: center;
   font-size: 32px;
   font-weight: 700;
-  margin-top: 97px;
+  margin-top: ${(props) => (props.margin ? props.margin : 57)}px;
 `;
 
 export const AlbumSubtitle = styled.div`
   font-size: 16px;
   font-weight: 500;
-  line-height: 38px;
   letter-spacing: 0em;
   text-align: center;
-  color: #999999;
+  color: ${color.gray[500]};
 `;
 
 // hover animation
@@ -202,34 +208,22 @@ const pulseAnimation = keyframes`
 `;
 
 export const AlbumBackground = styled.div`
-  width: 250px;
-  height: 290px;
-  margin: 40px auto;
-  padding: 10px;
-  border: 2.05px solid #d2d2d2;
+  margin: 32px auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5%;
   transition: transform 0.2s ease-in-out;
-  box-shadow: 0px 13.312px 24.576px 7.168px #00000012;
   cursor: pointer;
-
   &:hover {
     animation: ${pulseAnimation} 1s ease infinite;
   }
 `;
 
-export const AlbumImage = styled.img`
-  width: 270px;
-`;
-
 export const AlbumAddButton = styled.button`
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: 100%;
   background-color: #2f2f2f;
-  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,9 +232,8 @@ export const AlbumAddButton = styled.button`
   bottom: 60px;
   left: 80%;
   transform: translateX(-50%);
-  box-shadow: 0px 4px 11px 4px #9e9e9e40;
   transition: background-color 0.2s ease;
-  z-index: 1px;
+  z-index: 9;
 
   & span {
     justify-content: center;
@@ -250,36 +243,45 @@ export const AlbumAddButton = styled.button`
     position: absolute;
   }
 
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background-color: white;
+  }
+
+  &::before {
+    top: 35%;
+    left: 50%;
+    width: 2.8px;
+    height: 24px;
+    margin-left: -1px;
+    border-radius: 5px;
+  }
+
+  &::after {
+    top: 50%;
+    left: 35%;
+    width: 24px;
+    height: 2.8px;
+    margin-top: -1px;
+    border-radius: 5px;
+  }
+
   &:hover {
     background-color: #bbb;
-
-    p {
-      color: white;
-    }
   }
 `;
 
 export const EmptyAlbumScreen = styled.div`
-  width: 250px;
-  height: 301px;
-  margin: 40px auto;
+  margin: 32px auto;
+  width: 260px;
+  height: 300px;
+  background-image: url(${require('/assets/icons/albumCover/album_null.png')});
+  background-size: contain;
+  background-repeat: no-repeat;
   padding: 10px;
-  border: 2.05px solid #d2d2d2;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 13.312px 24.576px 7.168px rgba(0, 0, 0, 0.07);
-  font-size: 80px;
-  cursor: pointer;
-  color: #d2d2d2;
-`;
-
-export const PlusIcon = styled.img`
-  background-image: url(${plus});
-  justify-content: center;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
 `;
