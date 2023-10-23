@@ -61,7 +61,6 @@ const Main = () => {
           <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={40}
-            effect={'coverflow'}
             breakpoints={{
               375: {
                 slidesPerView: 1.4,
