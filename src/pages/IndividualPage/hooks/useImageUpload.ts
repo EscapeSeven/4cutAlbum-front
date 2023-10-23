@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import sampleImg from './image/sample_image.png';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import sampleImg from '@Assets/origin_test_photo/emptyScreen.png';
+import axios, { AxiosResponse } from 'axios';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ROUTES_PATH } from '@Constants/routes';
 import { BASE_URL } from '@Constants/base';
 
