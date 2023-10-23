@@ -11,11 +11,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import First from '../assets/icons/albumCover/First.png';
-import Second from '../assets/icons/albumCover/Second.png';
-import Third from '../assets/icons/albumCover/Third.png';
-import Fourth from '../assets/icons/albumCover/Fourth.png';
-import Fifth from '../assets/icons/albumCover/Fifth.png';
+import First from '../assets/icons/albumCover/first.png';
+import Second from '../assets/icons/albumCover/second.png';
+import Third from '../assets/icons/albumCover/third.png';
+import Fourth from '../assets/icons/albumCover/fourth.png';
+import Fifth from '../assets/icons/albumCover/fifth.png';
 import CompleteBtn from '@Assets/icons/CompleteBtn';
 import Header from '@Components/common/Header';
 
