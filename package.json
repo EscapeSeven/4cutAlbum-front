@@ -5,10 +5,10 @@
   "homepage": "https://escapeseven.github.io",
   "dependencies": {
     "@craco/craco": "^7.1.0",
-    "file-saver": "^2.0.5",
-    "html2canvas": "^1.4.1",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.1",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
