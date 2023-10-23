@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Draggable, { DraggableData } from 'react-draggable';
 import { v4 as uuidv4 } from 'uuid';
 import { styled } from 'styled-components';
-import { useRef } from 'react';
 import { BottomSheet, BottomSheetRef } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
 import { STICKER_IMAGES } from '@Constants/stickerImage';
 import html2canvas from 'html2canvas';
 import removeIcon from '@Assets/icons/removeIcon.png';
-import axios from 'axios';
-import { instance } from '@Apis/customAxios';
 import { useNavigate } from 'react-router-dom';
-import useImageUpload from './IndividualPage/hooks/useImageUpload';
 import color from '@Styles/color';
 import BackIcon from '@Assets/icons/BackIcon';
 import { ROUTES_PATH } from '@Constants/routes';
+import useDecorationInfo from '@Pages/hooks/useDecorationInfo';
 
 type Stickers = {
   id: string;
@@ -23,7 +20,7 @@ type Stickers = {
 };
 
 const Decoration = () => {
-  const { photo, onSubmitDecoPhoto, selectImg } = useImageUpload();
+  const { photo, onSubmitDecoPhoto } = useDecorationInfo();
 
   const imgUploadInput = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
