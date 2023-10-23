@@ -35,7 +35,7 @@ const PhotoSwiper = ({ albumPhotos, currentSlide }: Props) => {
               <SlideImg src={photo.imageUrl} />
               <PhotoDate>{photo.createdDate}</PhotoDate>
             </SlideImgWrapper>
-            <LikeButton likes={photo.likes} />
+            {/* <LikeButton likes={photo.likes} /> */}
           </SwiperSlide>
         ))}
       </Swiper>
