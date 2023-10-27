@@ -43,10 +43,13 @@ const Create = () => {
   };
 
   const validateInputs = () => {
-    const isTitleValid = validateInput(title, setIsTitleEmpty, ERROR_MESSAGES.TITLE);
+    const trimmedTitle = title.trim();
+    const trimmedSubTitle = subTitle.trim();
+
+    const isTitleValid = validateInput(trimmedTitle, setIsTitleEmpty, ERROR_MESSAGES.TITLE);
     if (!isTitleValid) updateTitle(ERROR_MESSAGES.TITLE);
 
-    const isSubTitleValid = validateInput(subTitle, setIsSubTitleEmpty, ERROR_MESSAGES.SUBTITLE);
+    const isSubTitleValid = validateInput(trimmedSubTitle, setIsSubTitleEmpty, ERROR_MESSAGES.SUBTITLE);
     if (!isSubTitleValid) updateSubTitle(ERROR_MESSAGES.SUBTITLE);
 
     return isTitleValid && isSubTitleValid;

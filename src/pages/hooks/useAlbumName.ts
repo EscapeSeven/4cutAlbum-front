@@ -10,7 +10,7 @@ export const useAlbumName = () => {
 
   const updateTitle = (value: string) => {
     setTitle(value);
-    if (value.trim() === '' || value === ERROR_MESSAGES.TITLE) {
+    if (value === ERROR_MESSAGES.TITLE) {
       setIsTitleEmpty(true);
     } else {
       setIsTitleEmpty(false);
@@ -19,7 +19,7 @@ export const useAlbumName = () => {
 
   const updateSubTitle = (value: string) => {
     setSubTitle(value);
-    if (value.trim() === '' || value === ERROR_MESSAGES.SUBTITLE) {
+    if (value === ERROR_MESSAGES.SUBTITLE) {
       setIsSubTitleEmpty(true);
     } else {
       setIsSubTitleEmpty(false);
