@@ -1,16 +1,17 @@
 import axios from 'axios';
-import BackIcon from '@Assets/icons/BackIcon';
-import CompleteBtn from '@Assets/icons/CompleteBtn';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES_PATH } from '@Constants/routes';
-import Input from '@Components/common/Input';
 import Header from '@Components/common/Header';
-import { S } from '@Styles/create';
-import { ValidateInput, FocusType } from '@Types/create';
-import { ERROR_MESSAGES, API_ENDPOINTS, ICON_PROPERTIES, DEFAULT_COVER_INDEX } from '@Constants/create';
-import { AlbumCover } from './AlbumCover';
+import { FocusType } from '@Types/create';
+import { ERROR_MESSAGES, API_ENDPOINTS, DEFAULT_COVER_INDEX } from '@Constants/create';
+import { AlbumCover } from '../../components/create/AlbumCover';
 import { useAlbumName } from '@Pages/hooks/useAlbumName';
+import styled from 'styled-components';
+import color from '@Styles/color';
+import { validateInput } from '@Utils/createUtils';
+import AlbumCreationForm from '@Components/create/AlbumCreationForm';
+import NavigationButtons from '@Components/create/NavigationButtons';
 
 const Create = () => {
   const {
@@ -41,31 +42,17 @@ const Create = () => {
     }
   };
 
-  const validateInput: ValidateInput = (input, errorSetter, errorMessage) => {
-    if (input.trim() === '' || input === errorMessage) {
-      errorSetter(true);
-      return false;
-    }
-    errorSetter(false);
-    return true;
-  };
-
-  const handleSubmit = async () => {
-    if (isSubmitting) return;
-
-    setIsSubmitting(true);
-
+  const validateInputs = () => {
     const isTitleValid = validateInput(title, setIsTitleEmpty, ERROR_MESSAGES.TITLE);
-    const isSubTitleValid = validateInput(subTitle, setIsSubTitleEmpty, ERROR_MESSAGES.SUBTITLE);
-
     if (!isTitleValid) updateTitle(ERROR_MESSAGES.TITLE);
 
+    const isSubTitleValid = validateInput(subTitle, setIsSubTitleEmpty, ERROR_MESSAGES.SUBTITLE);
     if (!isSubTitleValid) updateSubTitle(ERROR_MESSAGES.SUBTITLE);
 
-    if (!isTitleValid || !isSubTitleValid) {
-      setIsSubmitting(false);
-      return;
-    }
+    return isTitleValid && isSubTitleValid;
+  };
+
+  const createAlbum = async () => {
     try {
       const response = await axios.post(API_ENDPOINTS.ALBUM_WRITE, null, {
         params: {
@@ -78,45 +65,41 @@ const Create = () => {
       toHome();
     } catch (error) {
       console.error('An error occurred while sending the request:', error);
-    } finally {
-      setIsSubmitting(false);
     }
+  };
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    const areInputsValid = validateInputs();
+    if (!areInputsValid) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    await createAlbum();
+
+    setIsSubmitting(false);
   };
 
   return (
     <S.DefaultLayout>
       <S.CreateLayout>
         <Header>
-          <button onClick={toHome}>
-            <BackIcon
-              color={ICON_PROPERTIES.BACK_ICON.COLOR}
-              width={ICON_PROPERTIES.BACK_ICON.WIDTH.toString()}
-              height={ICON_PROPERTIES.BACK_ICON.HEIGHT.toString()}
-            />
-          </button>
-          <button onClick={handleSubmit}>
-            <CompleteBtn />
-          </button>
+          <NavigationButtons toHome={toHome} handleSubmit={handleSubmit} />
         </Header>
         <S.Content>
           <AlbumCover selectedCoverId={selectedCoverId} setSelectedCoverId={setSelectedCoverId} />
-          <Input
-            value={title}
-            onChange={(e) => updateTitle(e.target.value)}
-            resetValue={() => updateTitle('')}
-            placeholder="앨범명"
-            label="앨범명"
-            $hasError={isTitleEmpty}
-            onFocus={() => handleFocus('title')}
-          />
-          <Input
-            value={subTitle}
-            onChange={(e) => updateSubTitle(e.target.value)}
-            resetValue={() => updateSubTitle('')}
-            placeholder="부제목"
-            label="부제목"
-            $hasError={isSubTitleEmpty}
-            onFocus={() => handleFocus('subTitle')}
+          <AlbumCreationForm
+            title={title}
+            subTitle={subTitle}
+            isTitleEmpty={isTitleEmpty}
+            isSubTitleEmpty={isSubTitleEmpty}
+            updateTitle={updateTitle}
+            updateSubTitle={updateSubTitle}
+            handleFocus={handleFocus}
           />
         </S.Content>
       </S.CreateLayout>
@@ -125,3 +108,43 @@ const Create = () => {
 };
 
 export default Create;
+
+const S = {
+  DefaultLayout: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: antiquewhite;
+  `,
+  CreateLayout: styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: ${color.white};
+    max-width: 768px;
+  `,
+
+  Content: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 30px 20px 0 20px;
+
+    .swiper-slide {
+      width: 0px;
+
+      cursor: pointer;
+    }
+  `,
+  Cover: styled.div`
+    display: flex;
+    gap: 1.15rem;
+
+    overflow-x: scroll;
+  `,
+
+  InputContainer: styled.div`
+    margin-bottom: 4.1rem;
+    position: relative;
+  `,
+};
