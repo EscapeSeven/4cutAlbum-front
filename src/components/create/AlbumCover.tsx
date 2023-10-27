@@ -1,4 +1,3 @@
-import { S } from '@Styles/create';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -6,6 +5,7 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { ALBUM_COVER_IMAGES, SLIDER_BREAKPOINTS } from '@Constants/create';
+import styled from 'styled-components';
 
 type AlbumCoverProps = {
   selectedCoverId: number;
@@ -14,7 +14,7 @@ type AlbumCoverProps = {
 
 export const AlbumCover = ({ selectedCoverId, setSelectedCoverId }: AlbumCoverProps) => (
   <div>
-    <S.H2>앨범 커버</S.H2>
+    <H2>앨범 커버</H2>
     <Swiper modules={[Navigation, Pagination]} spaceBetween={10} breakpoints={SLIDER_BREAKPOINTS}>
       {ALBUM_COVER_IMAGES.map((cover, index) => (
         <SwiperSlide
@@ -28,3 +28,9 @@ export const AlbumCover = ({ selectedCoverId, setSelectedCoverId }: AlbumCoverPr
     </Swiper>
   </div>
 );
+
+const H2 = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1.02rem;
+`;
