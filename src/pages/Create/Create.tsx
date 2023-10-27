@@ -9,7 +9,7 @@ import { AlbumCover } from '../../components/create/AlbumCover';
 import { useAlbumName } from '@Pages/hooks/useAlbumName';
 import styled from 'styled-components';
 import color from '@Styles/color';
-import { validateInput } from '@Utils/createUtils';
+import { ValidateInput } from '@Types/create';
 import AlbumCreationForm from '@Components/create/AlbumCreationForm';
 import NavigationButtons from '@Components/create/NavigationButtons';
 
@@ -30,6 +30,16 @@ const Create = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toHome = () => navigate(ROUTES_PATH.main);
+
+  const isEmptyOrError = (input: string, errorMessage: string): boolean => {
+    return input.trim() === '' || input === errorMessage;
+  };
+
+  const validateInput: ValidateInput = (input, errorSetter, errorMessage) => {
+    const isError = isEmptyOrError(input, errorMessage);
+    errorSetter(isError);
+    return !isError;
+  };
 
   const handleFocus = (type: FocusType) => {
     if (type === 'title' && isTitleEmpty) {
